@@ -123,6 +123,12 @@ const LEVELS = [
 
   // Level 10 - The King (Boss Fight)
   1, THE_KING, END_OF_LEVEL,
+
+  // Level 11 - Final Challenge (NEW)
+  5, CHAMPION, 5, ROYAL_GUARD, 2, WIZARD, END_OF_WAVE,
+  10, BANDIT, 5, ARCHER, 5, SHELL_KNIGHT, END_OF_WAVE,
+  3, PIPER, 10, RAT, 2, MONK, END_OF_WAVE,
+  1, THE_KING, 5, CHAMPION, 5, ROYAL_GUARD, END_OF_LEVEL,
 ];
 
 let timer = 0;
