@@ -1,5 +1,7 @@
 # Norman the Necromancer
 
+_Aman is the developer for this game_
+
 ## About
 
 Norman the Necromancer is a stoic-themed arcade game where you play as Norman, a misunderstood necromancer who faces endless waves of villagers. Each time Norman is defeated, he calmly returns, learning and enduring through each cycle.

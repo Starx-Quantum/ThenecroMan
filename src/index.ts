@@ -1,5 +1,5 @@
 import * as sprites from "./sprites.json";
-import { init, updateParticles, updateTweens } from "./engine";
+import { init, updateParticles, updateTweens, write, canvas } from "./engine";
 import { Game, INTRO, PLAYING, SHOPPING, WIN } from "./game";
 import { render, screenToSceneCoords } from "./renderer";
 import { Cast, Resurrect } from "./actions";
@@ -24,12 +24,15 @@ const ENTER = 13;
 const KEY_P = 80;
 
 const INTRO_DIALOGUE = [
-  "Norman was never beloved by the villagers.",
-  "  Their fear of the unknown led them to violence.",
-  "    Death visited often, but Norman greeted it calmly.",
-  "  In the face of fate, he found acceptance.",
-  "    Each return was not revenge, but a lesson in endurance.",
-  "      'The obstacle on my path is my path,' Norman mused.",
+  "Norman, the necromancer, was shunned by all.",
+  "  The villagers feared what they could not understand.",
+  "    Yet Norman met each death with calm resolve.",
+  "  'Fate leads the willing, drags the unwilling,' he recalled.",
+  "    Each return was not vengeance, but a lesson in endurance.",
+  "  'The obstacle is the way,' Norman mused, rising once more.",
+  "    Through suffering, he found wisdom. Through wisdom, peace.",
+  "",
+  "Press anywhere to begin your journey.",
 ];
 
 const OUTRO_DIALOGUE = [
@@ -78,6 +81,7 @@ let normanIsBouncing = false;
 function update(dt: number) {
   updateDialogue(dt);
   render(dt);
+  renderDeveloperName(); // Draw developer name
   if (paused) return;
 
   if (game.state === PLAYING) {
@@ -126,6 +130,17 @@ function updateDialogue(dt: number) {
       game.dialogue.push("                (Click to begin)");
     }
   }
+}
+
+function renderDeveloperName() {
+  // Draw developer name at bottom-right corner
+  const padding = 4;
+  const text = "byteakp (developer)";
+  write(
+    text,
+    canvas.width - text.length * 6 - padding,
+    canvas.height - 12
+  );
 }
 
 game.addRitual(Streak);

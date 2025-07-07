@@ -1,9 +1,9 @@
+// Aman is the developer for this game
 import { Damage } from "./actions";
 import { PLAYING, RARE, Ritual, ShopItem, SHOPPING } from "./game";
 import { clamp, randomInt, removeFromArray, shuffled } from "./helpers";
 import { nextLevel } from "./levels";
 import { useLevelSynths, useShopSynths } from "./sounds";
-import { shopVisitCount } from "./renderer";
 
 export interface Shop {
   rituals: Ritual[];

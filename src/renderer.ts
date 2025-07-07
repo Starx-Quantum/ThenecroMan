@@ -43,52 +43,27 @@ export function render(dt: number) {
   if (game.state === SHOPPING) {
     drawShop();
   }
+
+  // Draw developer name at the bottom-right corner
+  renderDeveloperName();
 }
 
-// Add a list of stoic shop quotes
-const SHOP_QUOTES = [
-  "\"Fate brings both hardship and opportunity.\"",
-  "\"Let me choose wisely, unmoved by fortune or loss.\"",
-  "\"The obstacle on my path is my path.\"",
-  "\"I cannot control what happens, only how I respond.\"",
-  "\"To endure is to prevail.\"",
-  "\"All things serve to strengthen me.\"",
-  "\"Suffering is inevitable, misery is a choice.\"",
-  "\"What stands in the way becomes the way.\"",
-  "\"Peace comes from acceptance, not victory.\"",
-];
-
 function drawShop() {
-  // Dynamic stoic quote
-  let quote = SHOP_QUOTES[game.shopVisitCount % SHOP_QUOTES.length];
-  write(
-    `Between battles, Norman reflects:\n${quote}\n`,
-    160, 8
-  );
-  write("Rituals\n\n", 160, 36);
+  write("Rituals\n\n", 160, 20);
   let selected = shop.items[shop.selectedIndex];
   for (let item of shop.items) {
     write(
-      `${item === selected ? ">" : " "}${item.name} $${item.cost}\n`,
+      `${item === selected ? ">" : " "}${
+        item.name
+      } $${item.cost}\n`,
     );
   }
   write("\n" + selected?.description + "\n");
 }
 
-// Add subtle shadow to HUD text for readability
-function writeWithShadow(text: string, x: number, y: number) {
-  ctx.save();
-  ctx.shadowColor = "#000";
-  ctx.shadowBlur = 2;
-  ctx.shadowOffsetX = 1;
-  ctx.shadowOffsetY = 1;
-  write(text, x, y);
-  ctx.restore();
-}
-
 function drawHud() {
   if (game.dialogue.length) {
-    writeWithShadow(game.dialogue[0], 75, 50);
+    write(game.dialogue[0], 75, 50);
   }
 
   if (game.state === INTRO) return;
@@ -109,24 +84,21 @@ function drawHud() {
   if (souls) {
     let multiplier = game.getStreakMultiplier();
     let bonus = multiplier ? `(+${multiplier * 100 + "%"})` : "";
-    writeWithShadow(`${ICON_SOULS}${souls} ${bonus}`, canvas.width / 2 - 30, 0);
+    write(`${ICON_SOULS}${souls} ${bonus}`, canvas.width / 2 - 30, 0);
   }
 
-  writeWithShadow(`${game.level+1}-10`, canvas.width - 30, 2);
+  write(`${game.level+1}-10`, canvas.width - 30, 2);
 
   if (game.state === PLAYING) {
     let x = 150;
     let y = canvas.height - 12;
     let progress = clamp(game.ability.timer / game.ability.cooldown, 0, 1);
     drawNineSlice(sprites.pink_frame, x, y, 52 * (1 - progress) | 0, 10);
-    writeWithShadow("Resurrect", x + 10, y + 2);
-    if (progress === 1) writeWithShadow(" (Space)", x + 70, y + 2);
-    else writeWithShadow(" (" + (((1 - progress) * game.ability.cooldown) / 1000 | 0) + "s)", x + 70, y + 2);
+    write("Resurrect", x + 10, y + 2);
+    if (progress === 1) write(" (Space)");
+    else write(" (" + (((1 - progress) * game.ability.cooldown) / 1000 | 0) + "s)");
     drawSprite(sprites.skull, x + 1, y + 1);
   }
-
-  // Developer credit
-  writeWithShadow("Developed by Aman", canvas.width - 120, canvas.height - 18);
 }
 
 function drawOrbs(
@@ -171,37 +143,12 @@ function drawObjects() {
   }
 }
 
-let cloudOffset = 0;
-const CLOUD_SPEED = 0.03;
-const CLOUD_SPRITES = [
-  sprites.cloud_1,
-  sprites.cloud_2,
-  sprites.cloud_3,
-];
-
 function drawBackground() {
-  // Draw clouds first
-  drawClouds();
   for (let i = 0; i < game.stage.width / 16; i++) {
     let sprite = i % 5 ? sprites.wall : sprites.door;
     drawSceneSprite(sprite, i * 16, 0);
     drawSceneSprite(sprites.floor, i * 16, -sprites.floor[3]);
     drawSceneSprite(sprites.ceiling, i * 16, game.stage.ceiling);
-  }
-}
-
-// Add this function for clouds
-function drawClouds() {
-  cloudOffset += CLOUD_SPEED;
-  let width = game.stage.width;
-  let y = -sprites.floor[3] - 12;
-  for (let i = 0; i < 4; i++) {
-    let sprite = CLOUD_SPRITES[i % CLOUD_SPRITES.length];
-    // Only draw if sprite is defined and has at least 4 elements
-    if (sprite && sprite.length >= 4) {
-      let x = ((i * 80 + cloudOffset * (20 + i * 10)) % (width + 60)) - 30;
-      drawSceneSprite(sprite, x, y - (i % 2) * 6);
-    }
   }
 }
 
@@ -220,4 +167,15 @@ function drawParticles() {
       drawSceneSprite(sprite, particle.x, particle.y);
     }
   }
+}
+
+// Add this at the end of the file (or after imports)
+function renderDeveloperName() {
+  const padding = 4;
+  const text = "byteakp (developer)";
+  write(
+    text,
+    canvas.width - text.length * 6 - padding,
+    canvas.height - 12
+  );
 }
