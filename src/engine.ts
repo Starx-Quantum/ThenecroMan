@@ -202,7 +202,8 @@ export interface Particle {
   x: number;
   y: number;
   vx: number;
-  vy: number;
+  vy:number;
+  //physics properties
   bounce: number;
   elapsed: number;
   duration: number;

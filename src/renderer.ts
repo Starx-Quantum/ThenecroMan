@@ -13,7 +13,7 @@ export function screenshake(time: number) {
   screenShakeTimer = time;
 }
 
-let sceneOrigin = Point(0, 150);
+let sceneOrigin = Point(0, 160);
 
 export function screenToSceneCoords(x: number, y: number): Point {
   let r = canvas.getBoundingClientRect();

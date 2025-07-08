@@ -74,6 +74,13 @@ class KnockbackSpell extends Behaviour {
     if (target.mass < 1000) {
       tween(target.x, target.x + 16, 200, x => target.x = x);
     }
+  
+
+
+
+
+
+
 
     // Throw objects into the air
     //for (let object of game.objects) {
